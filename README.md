@@ -2,71 +2,79 @@
 
 An experiment for assigning a Service Principal an Azure KeyVault access policy when executing Terraform as that Service Principal.
 
+The Terraform template in this repository will create an Azure KeyVault and configure it with an Access Policy that permits the Service Principal to store a randomly generated Windows password as a KeyVault secret.
+
 ## Quickstart
 
-1. Login to Azure
+In these steps we will:
 
-Login to Azure with the Azure CLI.
+- create a Service Principal
+- set some environment variables so that Terraform will deploy resources as the Service Principal
+- use Terraform to deploy the template in this repository
 
-Run the `login` command:
+1. **Login to Azure**
 
-```plaintext
-az login
-```
+    Login to Azure with the Azure CLI.
 
-1. Create a Service Principal
+    Run the `login` command:
 
-Create a Service Principal with Azure CLI. 
+    ```plaintext
+    az login
+    ```
 
-Run the `ad sp create-for-rbac` command:
+1. **Create a Service Principal**
 
-```plaintext
-az ad sp create-for-rbac
-```
+    Create a Service Principal with Azure CLI. 
 
-**We'll need `appId`, `password`, and `tenant`.** from the command result. The Service Principal's client secret will only appear this one time. Capture these values before clearing the terminal.
+    Run the `ad sp create-for-rbac` command:
 
-1. Set environment variables for Terraform azurerm
+    ```plaintext
+    az ad sp create-for-rbac
+    ```
 
-The azurerm provider for Terraform can inspect environment variables in order to deploy with a Service Principal.
+    **We'll need `appId`, `password`, and `tenant`.** from the command result. The Service Principal's client secret will only appear this one time. Capture these values before clearing the terminal.
 
-See these docs for more info: <https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/guides/service_principal_client_secret#environment-variables>
+1. **Set environment variables for Terraform azurerm**
 
-Set the necessary values for azurerm to execute Terraform as a Service Principal:
+    The azurerm provider for Terraform can inspect environment variables in order to deploy with a Service Principal.
 
-```bash
-export ARM_CLIENT_ID={the value of 'appId' from the az ad sp create-for-rbac result}
-export ARM_CLIENT_SECRET={the value of 'password' from the az ad sp create-for-rbac result} 
-export ARM_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
-export ARM_TENANT_ID={the value of 'tenant' from the az ad sp create-for-rbac result} 
-```
+    See these docs for more info: <https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/guides/service_principal_client_secret#environment-variables>
 
-1. Login with the Service Principal
+    Set the necessary values for azurerm to execute Terraform as a Service Principal:
 
-Login with the Service Principal with Azure CLI:
+    ```bash
+    export ARM_CLIENT_ID={the value of 'appId' from the az ad sp create-for-rbac result}
+    export ARM_CLIENT_SECRET={the value of 'password' from the az ad sp create-for-rbac result} 
+    export ARM_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
+    export ARM_TENANT_ID={the value of 'tenant' from the az ad sp create-for-rbac result} 
+    ```
 
-```plaintext
-az login --service-principal \
-  -u "$ARM_CLIENT_ID" \
-  -p "$ARM_CLIENT_SECRET" \
-  --tenant "$ARM_TENANT_ID"
-```
+1. **Login with the Service Principal**
 
-1. Deploy with Terraform
+    Login with the Service Principal with Azure CLI:
 
-Now you're all setup to run Terraform as a Service Principal.
+    ```plaintext
+    az login --service-principal \
+      -u "$ARM_CLIENT_ID" \
+      -p "$ARM_CLIENT_SECRET" \
+      --tenant "$ARM_TENANT_ID"
+    ```
 
-First, run initialize a working directory:
+1. **Deploy with Terraform**
 
-```plaintext
-terraform init
-```
+    Now you're all setup to run Terraform as a Service Principal.
 
-Then `terraform apply` and accept the prompt:
+    First, run initialize a working directory:
 
-```plaintext
-terraform apply
-```
+    ```plaintext
+    terraform init
+    ```
+
+    Then `terraform apply` and accept the prompt:
+
+    ```plaintext
+    terraform apply
+    ```
 
 ## How this works
 
@@ -115,8 +123,12 @@ resource "azurerm_key_vault_secret" "windows-password" {
 
 ## Clean Up
 
-Once you're finished, deprovision the resources your Service Principal deployed with Terraform with `destroy`:
+This will clean up any Azure resources provisioned by the template in this repository.
 
-```plaintext
-terraform destroy
-```
+1. **Run Terraform destroy** 
+
+    Deprovision the resources your Service Principal deployed with Terraform with `destroy`:
+
+    ```plaintext
+    terraform destroy
+    ```
