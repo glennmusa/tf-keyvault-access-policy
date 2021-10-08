@@ -148,3 +148,19 @@ This will clean up any Azure resources provisioned by the template in this repos
     ```plaintext
     terraform destroy
     ```
+    
+1. Logout of the Service Principal
+
+    Return to your user account by running the `login` command again:
+    
+    ```plaintext
+    az login
+    ```
+
+1. Delete the Service Principal
+
+    Now that you no longer need it, delete the Service Principal using the `ad sp delete` command:
+    
+    ```plaintext
+    az ad sp delete --id $ARM_CLIENT_ID
+    ```
