@@ -51,6 +51,8 @@ In these steps we will:
 
 1. **Login with the Service Principal**
 
+    This step isn't actually necessary, but is valuable to prove that there is no other identity that could be provisioning resources.
+    
     Login with the Service Principal with Azure CLI:
 
     ```plaintext
@@ -64,7 +66,7 @@ In these steps we will:
 
     Now you're all setup to run Terraform as a Service Principal.
 
-    First, run initialize a working directory:
+    First, initialize a working directory:
 
     ```plaintext
     terraform init
