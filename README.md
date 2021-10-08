@@ -67,7 +67,7 @@ Let's get started.
 
     This step isn't actually necessary, but is valuable to prove that there is no other identity that could be provisioning resources.
     
-    Login with the Service Principal with Azure CLI:
+    Login as the Service Principal with Azure CLI:
 
     ```plaintext
     az login --service-principal \
