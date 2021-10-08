@@ -50,7 +50,7 @@ Let's get started.
     
 1. **Set environment variables for Terraform azurerm**
 
-    The azurerm provider for Terraform can inspect environment variables in order to deploy with a Service Principal.
+    The azurerm provider for Terraform can inspect environment variables should you want to deploy with a Service Principal.
 
     See these docs for more info: <https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/guides/service_principal_client_secret#environment-variables>
 
