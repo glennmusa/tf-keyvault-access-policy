@@ -12,6 +12,8 @@ In these steps we will:
 - set some environment variables so that Terraform will deploy resources as the Service Principal
 - use Terraform to deploy the template in this repository
 
+Let's get started.
+
 1. **Login to Azure**
 
     Login to Azure with the Azure CLI.
@@ -32,8 +34,20 @@ In these steps we will:
     az ad sp create-for-rbac
     ```
 
-    **We'll need `appId`, `password`, and `tenant`.** from the command result. The Service Principal's client secret will only appear this one time. Capture these values before clearing the terminal.
+    **We'll need the values of `appId`, `password`, and `tenant`** from the command result. The Service Principal's __client secret will only appear this one time__. 
+    
+    Capture these values before clearing the terminal. The result should look like:
 
+    ```json
+    {
+      "appId": "a GUID",
+      "displayName": "azure-cli-the-date",
+      "name": "a GUID",
+      "password": "a string",
+      "tenant": "your tenant ID"
+    }
+    ```
+    
 1. **Set environment variables for Terraform azurerm**
 
     The azurerm provider for Terraform can inspect environment variables in order to deploy with a Service Principal.
