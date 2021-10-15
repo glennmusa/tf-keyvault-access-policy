@@ -101,6 +101,9 @@ See this doc for more info: <https://registry.terraform.io/providers/hashicorp/a
 We use this `client_config` resource to provide the `tenant_id` property on the `azurerm_keyvault` resource as well as to create an out-of-the-box KeyVault Access Policy assignment for the executing principal (whether that's a user or a Service Principal):
 
 ```terraform
+data "azurerm_client_config" "current_client" {
+}
+
 resource "azurerm_key_vault" "keyvault" {
     
     # other required properties
