@@ -96,14 +96,16 @@ Let's get started.
 
 The Terraform template in this repository takes advantage of the azurerm Terraform provider's `client_config` data source.
 
+```terraform
+data "azurerm_client_config" "current_client" {
+}
+```
+
 See this doc for more info: <https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config>
 
 We use this `client_config` resource to provide the `tenant_id` property on the `azurerm_keyvault` resource as well as to create an out-of-the-box KeyVault Access Policy assignment for the executing principal (whether that's a user or a Service Principal):
 
 ```terraform
-data "azurerm_client_config" "current_client" {
-}
-
 resource "azurerm_key_vault" "keyvault" {
     
     # other required properties
